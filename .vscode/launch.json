@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [{
+        "name": "Server",
+        "type": "python",
+        "request": "launch",
+        "envFile": "${workspaceFolder}/.devcontainer/.env",
+        "program": "${workspaceFolder}/manage.py",
+        "args": [
+            "runserver"
+        ],
+        "django": true,
+        "autoReload": true,
+        "justMyCode": true
+    }]
+}

@@ -1,0 +1,33 @@
+version: '3.4'
+
+networks:
+  default:
+    driver: bridge
+
+services:
+  controle-vendas:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspace:cached
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    networks:
+      - default
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: controle-vendas
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - default

@@ -1,0 +1,27 @@
+stages:
+  - test
+
+# Global default for all jobs
+default:
+  image: python:3.10  # Imagem do Docker com Python para executar as etapas
+
+# Definir cache de dependências do pip para acelerar builds subsequentes
+cache:
+  paths:
+    - venv/
+
+# Job de teste
+test:
+  stage: test
+  script:
+    - python -m venv venv
+    - source venv/bin/activate
+    - pip install -r requirements.txt
+    - python manage.py migrate  # Aplica as migrações no banco de dados de teste
+    - python manage.py test  # Executa os testes
+  artifacts:
+    when: always
+    paths:
+      - reports/  # Gera artefatos de relatórios, se necessário
+  tags:
+    - docker

@@ -1,0 +1,6 @@
+# Django e Django REST Framework
+Django==4.2
+djangorestframework==3.14.0
+psycopg2-binary==2.9.9
+flake8==7.1.1
+drf-yasg==1.21.5
