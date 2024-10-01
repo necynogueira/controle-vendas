@@ -12,5 +12,14 @@
         "django": true,
         "autoReload": true,
         "justMyCode": true
+    },{
+        "name": "Collect Static",
+        "type": "python",
+        "request": "launch",
+        "envFile": "${workspaceFolder}/.devcontainer/.env",
+        "program": "${workspaceFolder}/manage.py",
+        "args": ["collectstatic", "--no-input"],
+        "django": true,
+        "console": "integratedTerminal"
     }]
 }
