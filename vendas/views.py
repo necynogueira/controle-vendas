@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Produto
+from django.contrib import messages
+from .models import Produto, Venda
 from .forms.produto_form import ProdutoForm
+from .forms.venda_form import VendaForm
 
 
 # Listar todos os produtos
@@ -41,3 +43,27 @@ def excluir_produto(request, id):
         produto.delete()
         return redirect('listar_produtos')
     return render(request, 'produto_confirm_delete.html', {'produto': produto})
+
+
+def registrar_venda(request):
+    if request.method == 'POST':
+        form = VendaForm(request.POST)
+        if form.is_valid():
+            venda = form.save(commit=False)
+            produto = venda.produto
+
+            if venda.quantidade_vendida > produto.quantidade_estoque:
+                messages.error(request, 'Quantidade insuficiente no estoque!')
+            else:
+                # Atualiza o estoque
+                produto.quantidade_estoque -= venda.quantidade_vendida
+                produto.save()
+
+                # Salva a venda
+                venda.save()
+                messages.success(request, 'Venda registrada com sucesso!')
+                return redirect('registrar_venda')
+    else:
+        form = VendaForm()
+
+    return render(request, 'registrar_venda.html', {'form': form})
