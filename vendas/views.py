@@ -101,20 +101,19 @@ def gerar_relatorio_estoque(request):
     # Criando o conteúdo do arquivo de relatório
     produtos = Produto.objects.all()
     linhas_relatorio = []
-    
+
     for produto in produtos:
         # Cria a tupla com os valores
         dados_produto = (produto.codigo, produto.nome, produto.quantidade_estoque)
         # Usa a tupla para formatar a linha
         linha = "Código: {}, Nome: {}, Quantidade em estoque: {}\n".format(*dados_produto)
         linhas_relatorio.append(linha)
-    
+
     # Unindo as linhas em um único texto
     conteudo_relatorio = ''.join(linhas_relatorio)
-    
+
     # Gerando a resposta como um arquivo de texto
     response = HttpResponse(conteudo_relatorio, content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename="relatorio_estoque.txt"'
-    
-    return response
 
+    return response
